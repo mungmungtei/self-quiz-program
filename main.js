@@ -1,4 +1,7 @@
-function addQuiz(event) {
+// TODO: 이벤트 위임 공부하고 리팩토링 할 것!!
+
+// 엔터 키 누를 시, input 값 브라우저에 보여주기
+function addQuizByEnter(event) {
   const inputQuiz = document.querySelector(".inputQuiz");
   const quizContent = inputQuiz.value;
   const quiz = document.createElement("h2");
@@ -11,5 +14,21 @@ function addQuiz(event) {
     inputQuiz.value = null; // input 입력 완료 시, 값 초기화시키도록
   }
 }
+document.addEventListener("keypress", addQuizByEnter);
 
-window.addEventListener("keypress", addQuiz);
+// 플러스 버튼 클릭 시, input 값 브라우저에 보여주기
+function addQuizByClick() {
+  const inputQuiz = document.querySelector(".inputQuiz");
+  const quizContent = inputQuiz.value;
+  const quiz = document.createElement("h2");
+  quiz.setAttribute("class", "quiz");
+  if (quizContent) {
+    quiz.textContent = quizContent;
+    document.querySelector(".quizList").appendChild(quiz);
+    window.scrollTo(0, document.body.scrollHeight);
+    console.log(quizContent);
+    inputQuiz.value = null;
+  }
+}
+const addQuizBtn = document.querySelector(".addQuizBtn");
+addQuizBtn.addEventListener("click", addQuizByClick);
