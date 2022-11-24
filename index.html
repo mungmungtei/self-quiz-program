@@ -1,15 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Yeon+Sung&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/e6f2333130.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Self Quiz Program</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
   </head>
   <body>
-    <h1>내가 셀프 퀴즈 프로그램을 만들어볼게~</h1>
-    <h2>얍!</h2>
+    <main class="home">
+      <h1 class="title">
+        SELF <span style="color: rgb(242, 202, 40)">Q</span>UIZ
+      </h1>
+
+      <form action="" method="">
+        <input
+          type="text"
+          class="inputQuiz box"
+          placeholder="퀴즈를 입력해주세요. (공백 포함 최대 50글자)"
+          maxlength="50"
+        />
+        <i class="addQuiz fa-solid fa-circle-plus"></i>
+      </form>
+
+      <div class="quizList">
+        <h2>자바스크립트 var, let, const의 차이점은?</h2>
+        <h2>
+          자바스크립트 비동기 콜백함수, promise, async & await에 대해
+          설명하시오!
+        </h2>
+      </div>
+
+      <div class="goQuizBtns">
+        <button class="goQuiz box">퀴즈 풀기 (순서대로)</button>
+        <button class="goQuiz box">퀴즈 풀기 (랜덤으로)</button>
+      </div>
+    </main>
   </body>
 </html>
