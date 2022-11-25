@@ -17,9 +17,12 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <main class="home">
+    <section class="home">
       <h1 class="title">
-        SELF <span style="color: rgb(242, 202, 40)">Q</span>UIZ
+        SELF <span class="yellowSpell">Q</span>UIZ PROGR<span
+          class="yellowSpell"
+          >A</span
+        >M
       </h1>
 
       <div class="addBox">
@@ -32,18 +35,18 @@
         <i class="addQuizBtn fa-solid fa-circle-plus"></i>
       </div>
 
-      <div class="quizList">
-        <!-- <h2>자바스크립트 var, let, const의 차이점은?</h2>
-        <h2>
-          자바스크립트 비동기 콜백함수, promise, async & await에 대해
-          설명하시오!
-        </h2> -->
-      </div>
+      <table class="quizList">
+        <colgroup>
+          <col width="80%" />
+          <col width="20%" />
+        </colgroup>
+        <tbody class="quizAndBtn"></tbody>
+      </table>
 
       <div class="goQuizBtns">
         <button class="goQuiz box">퀴즈 풀기 (순서대로)</button>
         <button class="goQuiz box">퀴즈 풀기 (랜덤으로)</button>
       </div>
-    </main>
+    </section>
   </body>
 </html>

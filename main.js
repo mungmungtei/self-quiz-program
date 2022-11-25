@@ -1,34 +1,49 @@
-// TODO: 이벤트 위임 공부하고 리팩토링 할 것!!
+/**To do list
+ * 삭제 버튼 클릭하면 퀴즈 삭제
+ */
 
-// 엔터 키 누를 시, input 값 브라우저에 보여주기
-function addQuizByEnter(event) {
-  const inputQuiz = document.querySelector(".inputQuiz");
-  const quizContent = inputQuiz.value;
-  const quiz = document.createElement("h2");
-  quiz.setAttribute("class", "quiz");
-  if (event.key == "Enter" && quizContent) {
-    quiz.textContent = quizContent;
-    document.querySelector(".quizList").appendChild(quiz);
-    window.scrollTo(0, document.body.scrollHeight); // 콘텐츠가 길이에 맞춰 아래로 스크롤되도록
-    console.log(quizContent); // 나중에 지우기
-    inputQuiz.value = null; // input 입력 완료 시, 값 초기화시키도록
-  }
-}
-document.addEventListener("keypress", addQuizByEnter);
-
-// 플러스 버튼 클릭 시, input 값 브라우저에 보여주기
-function addQuizByClick() {
-  const inputQuiz = document.querySelector(".inputQuiz");
-  const quizContent = inputQuiz.value;
-  const quiz = document.createElement("h2");
-  quiz.setAttribute("class", "quiz");
-  if (quizContent) {
-    quiz.textContent = quizContent;
-    document.querySelector(".quizList").appendChild(quiz);
-    window.scrollTo(0, document.body.scrollHeight);
-    console.log(quizContent);
-    inputQuiz.value = null;
-  }
-}
+const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
+const quizAndBtn = document.querySelector(".quizAndBtn");
+
+// 퀴즈 미입력 시, 알람 발생
+function alertNoInput() {
+  alert("퀴즈를 입력해주세요 ^___^");
+  inputQuiz.focus();
+}
+
+// 퀴즈 추가
+function addQuiz() {
+  const content = inputQuiz.value;
+  const row = quizAndBtn.insertRow();
+  const tdQuiz = document.createElement("td");
+  const tdBtn = document.createElement("td");
+  tdQuiz.textContent = content;
+  tdBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  row.append(tdQuiz, tdBtn);
+  inputQuiz.value = "";
+  inputQuiz.focus();
+}
+
+// 엔터키 누르면 퀴즈 추가
+inputQuiz.addEventListener("keypress", addQuizByEnter);
+function addQuizByEnter(event) {
+  const content = inputQuiz.value;
+  if (!content && event.key === "Enter") {
+    alertNoInput();
+  }
+  if (content && event.key === "Enter") {
+    addQuiz();
+  }
+}
+
+// 플러스 버튼을 클릭하면 퀴즈 추가
 addQuizBtn.addEventListener("click", addQuizByClick);
+function addQuizByClick() {
+  const content = inputQuiz.value;
+  if (!content) {
+    alertNoInput();
+    return false;
+  }
+  addQuiz();
+}
