@@ -1,5 +1,5 @@
 /**To do list
- * 삭제 버튼 클릭하면 퀴즈 삭제
+ *
  */
 
 const inputQuiz = document.querySelector(".inputQuiz");
@@ -12,23 +12,33 @@ function alertNoInput() {
   inputQuiz.focus();
 }
 
-// 퀴즈 추가
+// 퀴즈 추가 (+삭제 이벤트)
 function addQuiz() {
   const content = inputQuiz.value;
   const row = quizAndBtn.insertRow();
   const tdQuiz = document.createElement("td");
   const tdBtn = document.createElement("td");
   tdQuiz.textContent = content;
-  tdBtn.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+  tdBtn.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
+
+  // 삭제 버튼 클릭 시, 해당 퀴즈 삭제
+  tdBtn.addEventListener("click", () => {
+    quizAndBtn.removeChild(row);
+  });
+
   row.append(tdQuiz, tdBtn);
+  quizAndBtn.append(row);
   inputQuiz.value = "";
   inputQuiz.focus();
 }
 
 // 엔터키 누르면 퀴즈 추가
-inputQuiz.addEventListener("keypress", addQuizByEnter);
+inputQuiz.addEventListener("keydown", addQuizByEnter);
 function addQuizByEnter(event) {
   const content = inputQuiz.value;
+  if (event.isComposing) {
+    return;
+  }
   if (!content && event.key === "Enter") {
     alertNoInput();
   }
@@ -37,7 +47,7 @@ function addQuizByEnter(event) {
   }
 }
 
-// 플러스 버튼을 클릭하면 퀴즈 추가
+// 플러스 버튼 클릭 시, 퀴즈 추가
 addQuizBtn.addEventListener("click", addQuizByClick);
 function addQuizByClick() {
   const content = inputQuiz.value;
