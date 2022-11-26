@@ -12,47 +12,61 @@ const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
 const quizAndBtn = document.querySelector(".quizAndBtn");
 
-// 퀴즈 미입력 시, 알람 발생
+// input 값 미입력 시, 알람 발생
 function alertNoInput() {
   alert("퀴즈를 입력해주세요 ^___^");
   inputQuiz.focus();
 }
 
-// 퀴즈 추가 (+삭제 이벤트)
-function addQuiz() {
-  const content = inputQuiz.value;
-  saveQuiz(content); // Local Storage에 퀴즈 저장
+// 사용자 input 값을 퀴즈로 추가하기
+function addQuiz(event) {
+  event.preventDefault();
+  const quiz = inputQuiz.value;
+  createQuiz(quiz); // 퀴즈 만들고 브라우저에 보여주기
+  saveQuiz(quiz); // Local Storage에 퀴즈 저장
+}
 
+// 퀴즈 만들고 브라우저에 보여주기
+function createQuiz(quiz) {
   const row = quizAndBtn.insertRow();
   const tdQuiz = document.createElement("td");
-  const tdBtn = document.createElement("td");
+  const tdDelete = document.createElement("td");
 
-  tdQuiz.textContent = content;
-  tdBtn.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
+  tdQuiz.textContent = quiz;
+  tdDelete.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
 
-  // 삭제 버튼 클릭 시, 해당 퀴즈 삭제
-  tdBtn.addEventListener("click", () => {
-    quizAndBtn.removeChild(row);
-  });
-
-  row.append(tdQuiz, tdBtn);
+  row.append(tdQuiz, tdDelete);
   quizAndBtn.append(row);
   inputQuiz.value = "";
   inputQuiz.focus();
 }
 
 // Local Storage에 퀴즈 저장하기
-function saveQuiz(content) {
+function saveQuiz(quiz) {
   let quizList;
   quizList = localStorage.getItem("quizList")
     ? JSON.parse(localStorage.getItem("quizList"))
     : [];
-  quizList.push(content);
+  quizList.push(quiz);
   localStorage.setItem("quizList", JSON.stringify(quizList));
+}
+
+// Local Storage에 저장된 퀴즈 가져오기
+document.addEventListener("DOMContentLoaded", getSavedQuiz);
+
+function getSavedQuiz() {
+  let quizzes = localStorage.getItem("quizList");
+  if (quizzes) {
+    let quizList = JSON.parse(quizzes);
+    quizList.forEach((quiz) => {
+      createQuiz(quiz); // Local Storage에 저장된 퀴즈 리스트를 브라우저에 보여주기
+    });
+  }
 }
 
 // 엔터키 누르면 퀴즈 추가
 inputQuiz.addEventListener("keydown", addQuizByEnter);
+
 function addQuizByEnter(event) {
   const content = inputQuiz.value;
   if (event.isComposing) {
@@ -62,34 +76,23 @@ function addQuizByEnter(event) {
     alertNoInput();
   }
   if (content && event.key === "Enter") {
-    addQuiz();
+    addQuiz(event);
   }
 }
 
 // 플러스 버튼 클릭 시, 퀴즈 추가
 addQuizBtn.addEventListener("click", addQuizByClick);
-function addQuizByClick() {
+
+function addQuizByClick(event) {
   const content = inputQuiz.value;
   if (!content) {
     alertNoInput();
     return false;
   }
-  addQuiz();
+  addQuiz(event);
 }
 
-// // Local Storage에 퀴즈 저장하기
-// function saveQuiz(content) {
-//   localStorage.setItem("key", content);
-// }
-
-// // Local Storage에서 퀴즈 가져오기
-// function getSavedQuiz() {
-//   const quizJSON = localStorage.getItem("quiz");
-//   try {
-//     return quizJSON ? JSON.parse(quizJSON) : [];
-//   } catch (error) {
-//     return [];
-//   }
-// }
-
-// let quiz = getSavedQuiz();
+// 삭제 버튼 클릭 시, 해당 퀴즈 삭제
+// tdDelete.addEventListener("click", () => {
+//   quizAndBtn.removeChild(row);
+// });
