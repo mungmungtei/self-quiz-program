@@ -93,7 +93,7 @@ body {
 .quizAndBtn {
   text-align: center;
   font-size: var(--font-regular);
-  width: 490px;
+  width: 440px;
   margin-left: 20px;
 }
 
@@ -103,6 +103,10 @@ body {
 
 .delete {
   cursor: pointer;
+}
+
+.delete:hover {
+  color: rgb(255, 61, 61);
 }
 
 .goQuiz {
