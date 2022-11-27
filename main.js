@@ -12,6 +12,10 @@ const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
 const quizAndBtn = document.querySelector(".quizAndBtn");
 
+document.addEventListener("DOMContentLoaded", getSavedQuiz);
+inputQuiz.addEventListener("keydown", addQuizByEnter);
+addQuizBtn.addEventListener("click", addQuizByClick);
+
 // input 값 미입력 시, 알람 발생
 function alertNoInput() {
   alert("퀴즈를 입력해주세요 ^___^");
@@ -23,7 +27,7 @@ function addQuiz(event) {
   event.preventDefault();
   const quiz = inputQuiz.value;
   createQuiz(quiz); // 퀴즈 만들고 브라우저에 보여주기
-  saveQuiz(quiz); // Local Storage에 퀴즈 저장
+  saveQuiz(quiz); // Local Storage에 퀴즈 저장하기
 }
 
 // 퀴즈 만들고 브라우저에 보여주기
@@ -52,8 +56,6 @@ function saveQuiz(quiz) {
 }
 
 // Local Storage에 저장된 퀴즈 가져오기
-document.addEventListener("DOMContentLoaded", getSavedQuiz);
-
 function getSavedQuiz() {
   let quizzes = localStorage.getItem("quizList");
   if (quizzes) {
@@ -65,8 +67,6 @@ function getSavedQuiz() {
 }
 
 // 엔터키 누르면 퀴즈 추가
-inputQuiz.addEventListener("keydown", addQuizByEnter);
-
 function addQuizByEnter(event) {
   const content = inputQuiz.value;
   if (event.isComposing) {
@@ -81,8 +81,6 @@ function addQuizByEnter(event) {
 }
 
 // 플러스 버튼 클릭 시, 퀴즈 추가
-addQuizBtn.addEventListener("click", addQuizByClick);
-
 function addQuizByClick(event) {
   const content = inputQuiz.value;
   if (!content) {

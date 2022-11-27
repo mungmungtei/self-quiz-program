@@ -1,18 +1,20 @@
 :root {
   /* color */
-  --color-black: rgb(50, 49, 49);
-  --color-white: white;
-  --color-background-white: whitesmoke;
+  --color-background: rgb(235, 234, 238);
+  --color-gray: #61677c;
+  --color-black: rgb(75, 74, 74);
   --color-yellow: rgb(242, 202, 40);
+  --color-red: rgb(220, 100, 100);
 
   /* font-size */
-  --font-large: 2.5rem;
+  --font-large: 2.6rem;
   --font-medium: 1.5rem;
-  --font-regular: 1.25rem;
+  --font-regular: 1.125rem;
   --font-small: 1rem;
 
   /* font-weight */
   --weight-bold: 700;
+  --weight-medium: 500;
   --weight-regular: 400;
 }
 
@@ -20,99 +22,131 @@ body {
   margin: 0;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(70deg, papayawhip, cadetblue) no-repeat;
   min-height: 100vh;
+  background-color: var(--color-background);
 }
 
-/* 사용자의 동작을 입력 받는 box */
-.box {
-  border: 3px solid var(--color-yellow);
-  border-radius: 25px;
-  outline: 0;
-  padding-inline: 20px 20px;
-  cursor: pointer;
-  font-family: "Do Hyeon", sans-serif;
-  font-size: var(--font-regular);
+section,
+button,
+input {
+  text-shadow: 1px 1px 1px #fff;
+  font-family: "Hahmlet", serif;
+  font-weight: var(--weight-medium);
+  color: var(--color-black);
 }
 
-.home {
+section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--color-background-white);
-  border-radius: 25px;
-  box-shadow: 12px 12px 10px 1px rgba(63, 63, 62, 0.5);
+  padding: 28px;
   width: 500px;
-  height: 76vh;
-  padding: 50px 25px;
-  font-family: "Do Hyeon", sans-serif;
-  color: var(--color-black);
-  margin: 30px 0;
+  height: 82vh;
+  border-radius: 30px;
+  box-shadow: inset 7px 7px 11px #fff, inset -7px -7px 11px #babecc;
+  font-size: var(--font-regular);
 }
 
 .title {
-  margin: 0;
+  margin: 30px 0 0 0;
   font-family: "Josefin Sans", sans-serif;
   font-weight: var(--weight-bold);
   font-size: var(--font-large);
+  color: var(--color-black);
+  text-align: center;
 }
 
 .yellowSpell {
   color: var(--color-yellow);
 }
 
+.box {
+  border: 0;
+  outline: 0;
+  border-radius: 320px;
+  padding: 8px 12px;
+  cursor: pointer;
+  letter-spacing: -1.2px;
+  background-color: var(--color-background);
+}
+
 .addBox {
   display: flex;
   align-items: center;
-  margin: 30px 0 20px 0;
+  margin: 15px 0 5px 0;
+  width: 100%;
 }
 
 .inputQuiz {
-  width: 350px;
+  width: 90%;
   height: 30px;
-  background-color: var(--color-white);
+}
+
+.inputQuiz,
+.btns button {
+  font-size: var(--font-regular);
+  box-shadow: -5px -5px 5px #fff, 5px 5px 5px #babecc;
+  transition: all 0.2s ease-in-out;
+}
+
+.inputQuiz:hover,
+.btns button:hover {
+  box-shadow: -8px -8px 15px #fff, 8px 8px 15px #babecc;
+  transition: all 0.2s ease-in-out;
 }
 
 .addQuizBtn {
+  width: 10%;
   color: var(--color-yellow);
-  font-size: 35px;
+  font-size: 40px;
   border: none;
   margin-left: 10px;
   cursor: pointer;
 }
 
+.addQuizBtn:hover,
+.delete:hover {
+  transform: scale(1.1);
+  transition: all 0.2s ease-in-out;
+}
+
 .table {
-  background-color: var(--color-white);
+  width: 100%;
   height: 60vh;
   overflow: auto;
+  border-radius: 30px;
+  box-shadow: inset 2px 2px 5px #babecc, inset -2px -2px 5px #babecc;
+  margin: 10px 0;
 }
 
 .quizAndBtn {
   text-align: center;
-  font-size: var(--font-regular);
-  width: 440px;
-  margin-left: 20px;
+  width: 100%;
 }
 
 .quizAndBtn tr {
-  height: 65px;
+  height: 55px;
 }
 
 .delete {
   cursor: pointer;
 }
 
-.delete:hover {
-  color: rgb(255, 61, 61);
+.delete:hover,
+.btns .deleteAll:hover {
+  color: var(--color-red);
+  background-color: whitesmoke;
 }
 
-.goQuiz {
-  background-color: var(--color-yellow);
-  color: var(--color-white);
+.btns button {
   border-style: none;
-  margin: 30px 10px 0 10px;
-  padding: 4px 16px;
+  margin: 15px 5px 24px 5px;
+}
+
+.btns .goQuiz:hover {
+  background-color: var(--color-yellow);
+  color: whitesmoke;
+  text-shadow: none;
 }
