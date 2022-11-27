@@ -1,20 +1,12 @@
-/**To do list
- * 우선 순서대로 퀴즈풀기 먼저
- * 퀴즈 풀기(순서대로) 버튼 클릭 시, 알람 발생 -> 퀴즈에 말로 대답하면서 무엇을 알고, 무엇을 모르는지 정확히 확인해 보세요!
- * 알람 확인 누르면, 첫번째 퀴즈가 화면에 큰 글씨로 보여짐
- * hhml, css 먼저 만들고 거기에 맞춰서 DOM 추가하기 (엘리쌤처럼)
- * 우선 퀴즈 섹션을 묶을 article? section?
- * 그 안에는 p 태그로 퀴즈 넣고 / 체크박스 밑에 넣고 / 다음 버튼
- * 넘겨질 때 애니메이션 주기
- */
-
 const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
 const quizAndBtn = document.querySelector(".quizAndBtn");
+const deleteAll = document.querySelector(".deleteAll");
 
 document.addEventListener("DOMContentLoaded", getSavedQuiz);
 inputQuiz.addEventListener("keydown", addQuizByEnter);
 addQuizBtn.addEventListener("click", addQuizByClick);
+deleteAll.addEventListener("click", deleteQuizList);
 
 // input 값 미입력 시, 알람 발생
 function alertNoInput() {
@@ -32,6 +24,7 @@ function addQuiz(event) {
 
 // 퀴즈 만들고 브라우저에 보여주기
 function createQuiz(quiz) {
+  const tableQuiz = document.querySelector(".table");
   const row = quizAndBtn.insertRow();
   const tdQuiz = document.createElement("td");
   const tdDelete = document.createElement("td");
@@ -43,6 +36,13 @@ function createQuiz(quiz) {
   quizAndBtn.append(row);
   inputQuiz.value = "";
   inputQuiz.focus();
+  const maxScrollLeft = tableQuiz.scrollHeight - tableQuiz.clientHeight;
+  console.log(quizAndBtn.lastChild.getBoundingClientRect().y);
+  console.log(maxScrollLeft);
+  tableQuiz.scrollTo({
+    top: maxScrollLeft,
+    behavior: "smooth",
+  });
 }
 
 // Local Storage에 퀴즈 저장하기
@@ -94,3 +94,8 @@ function addQuizByClick(event) {
 // tdDelete.addEventListener("click", () => {
 //   quizAndBtn.removeChild(row);
 // });
+
+// 퀴즈 전체 삭제 버튼 클릭 시, 퀴즈 전체 삭제
+function deleteQuizList() {
+  localStorage.removeItem("quizList");
+}
