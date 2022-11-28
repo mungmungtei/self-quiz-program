@@ -5,6 +5,7 @@
   --color-black: rgb(75, 74, 74);
   --color-yellow: rgb(242, 202, 40);
   --color-red: rgb(220, 100, 100);
+  --color-orange: #f68a06;
 
   /* font-size */
   --font-large: 2rem;
@@ -41,7 +42,7 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px;
+  padding: 50px 30px;
   width: 500px;
   height: 82vh;
   border-radius: 30px;
@@ -71,7 +72,7 @@ header {
   color: var(--color-black);
   text-align: center;
   margin: 0;
-  padding-top: 20px;
+  padding-top: 12px;
 }
 
 .yellowSpell {
@@ -81,7 +82,7 @@ header {
 .box {
   border: 0;
   outline: 0;
-  border-radius: 320px;
+  border-radius: 16px;
   padding: 5px 12px;
   cursor: pointer;
   letter-spacing: -1.2px;
@@ -101,14 +102,16 @@ header {
 }
 
 .inputQuiz,
-.btns button {
+.btns button,
+.nextBtn {
   font-size: var(--font-regular);
   box-shadow: -5px -5px 5px #fff, 5px 5px 5px #babecc;
   transition: all 0.2s ease-in-out;
 }
 
 .inputQuiz:hover,
-.btns button:hover {
+.btns button:hover,
+.nextBtn:hover {
   box-shadow: -8px -8px 15px #fff, 8px 8px 15px #babecc;
   transition: all 0.2s ease-in-out;
 }
@@ -129,13 +132,17 @@ header {
   transition: all 0.2s ease-in-out;
 }
 
-.table {
+.table,
+.quizBox {
   width: 100%;
-  height: 60vh;
   overflow: auto;
   border-radius: 30px;
   box-shadow: inset 2px 2px 5px #babecc, inset -2px -2px 5px #babecc;
   margin: 10px 0;
+}
+
+.table {
+  height: 60vh;
 }
 
 .quizAndBtn {
@@ -157,12 +164,18 @@ header {
   background-color: var(--color-white);
 }
 
-.btns button {
-  border-style: none;
-  margin: 10px 5px 24px 5px;
+.btns {
+  width: 100%;
+  text-align: center;
 }
 
-.btns .goQuiz:hover {
+.btns button {
+  border-style: none;
+  margin: 10px 5px 0px;
+}
+
+.btns .goQuiz:hover,
+.nextBtn:hover {
   color: var(--color-white);
   background-color: var(--color-yellow);
   text-shadow: none;
@@ -170,4 +183,61 @@ header {
 
 figure {
   margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.rubberDuck-quiz {
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+}
+
+p {
+  margin: 0;
+  font-size: var(--font-small);
+}
+
+.main-p-tag {
+  font-size: var(--font-regular);
+}
+
+.quizBox {
+  height: 40vh;
+  margin: 24px 0;
+}
+
+.checkBtn {
+  width: 50px;
+  height: 50px;
+  text-shadow: none;
+  color: #fff;
+}
+
+.btns .circle {
+  background-color: green;
+  font-size: var(--font-medium);
+}
+
+.btns .triangle {
+  background-color: gold;
+  font-size: var(--font-medium);
+  color: var(--color-black);
+  margin: 0 30px;
+}
+
+.btns .letterX {
+  background-color: crimson;
+  font-size: var(--font-medium);
+}
+
+.nextBtn {
+  background-color: var(--color-background);
+  border-style: none;
+  border-radius: 16px;
+  width: 100%;
+  padding: 6px 12px;
+  margin-top: 38px;
 }
