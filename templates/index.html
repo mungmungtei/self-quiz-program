@@ -13,17 +13,30 @@
       crossorigin="anonymous"
     ></script>
     <title>Self Quiz Program</title>
+    <meta
+      name="description"
+      content="메타 인지를 높이기 위한 셀프 퀴즈 프로그램"
+    />
+    <meta name="author" content="Joohee Kim" />
+    <link rel="icon" type="image/png" href="../images/rubber-duck.png" />
     <link rel="stylesheet" href="../styles/style.css" />
     <script src="../scripts/main.js" defer></script>
   </head>
   <body>
     <section>
-      <h1 class="title">
-        SELF <span class="yellowSpell">Q</span>UIZ PROGR<span
-          class="yellowSpell"
-          >A</span
-        >M
-      </h1>
+      <header>
+        <img
+          class="rubberDuck-home"
+          src="../images/rubber-duck.png"
+          alt="고무로 만든 병아리 장난감"
+        />
+        <h1 class="title">
+          SELF <span class="yellowSpell">Q</span>UIZ PROGR<span
+            class="yellowSpell"
+            >A</span
+          >M
+        </h1>
+      </header>
 
       <div class="addBox">
         <input
@@ -46,8 +59,8 @@
 
       <div class="btns">
         <button class="deleteAll box">퀴즈 전체 삭제</button>
-        <button class="goQuiz box">퀴즈 풀기 (순서대로)</button>
-        <button class="goQuiz box">퀴즈 풀기 (랜덤으로)</button>
+        <button class="inOrder goQuiz box">퀴즈 풀기 (순서대로)</button>
+        <button class="random goQuiz box">퀴즈 풀기 (랜덤으로)</button>
       </div>
     </section>
   </body>

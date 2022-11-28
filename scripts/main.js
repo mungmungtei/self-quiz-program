@@ -2,11 +2,19 @@ const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
 const quizAndBtn = document.querySelector(".quizAndBtn");
 const deleteAll = document.querySelector(".deleteAll");
+const goQuizInOrder = document.querySelector(".inOrder");
+const goQuizRandom = document.querySelector(".random");
 
 document.addEventListener("DOMContentLoaded", getSavedQuiz);
 inputQuiz.addEventListener("keydown", addQuizByEnter);
 addQuizBtn.addEventListener("click", addQuizByClick);
 deleteAll.addEventListener("click", deleteAllQuiz);
+goQuizInOrder.addEventListener("click", () => {
+  location.href = "quiz.html";
+});
+goQuizRandom.addEventListener("click", () => {
+  location.href = "quiz.html";
+});
 
 // input 값 미입력 시, 알람 발생
 function alertNoInput() {
