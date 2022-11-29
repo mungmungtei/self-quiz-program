@@ -1,3 +1,5 @@
+"use strict";
+
 const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
 const quizAndBtn = document.querySelector(".quizAndBtn");
@@ -9,36 +11,28 @@ document.addEventListener("DOMContentLoaded", getSavedQuiz);
 inputQuiz.addEventListener("keydown", addQuizByEnter);
 addQuizBtn.addEventListener("click", addQuizByClick);
 deleteAll.addEventListener("click", deleteAllQuiz);
-goQuizInOrder.addEventListener("click", () => {
-  location.href = "quiz.html";
-});
-goQuizRandom.addEventListener("click", () => {
-  location.href = "quiz.html";
-});
 
-// input 값 미입력 시, 알람 발생
-function alertNoInput() {
-  alert("퀴즈를 입력해주세요 ^___^");
-  inputQuiz.focus();
-}
-
-// 사용자 input 값을 퀴즈로 추가하기
-function addQuiz(event) {
-  event.preventDefault();
-  const quiz = inputQuiz.value;
-  createQuiz(quiz);
-  saveQuiz(quiz);
+// Local Storage에 저장된 퀴즈 가져오기
+function getSavedQuiz() {
+  if (localStorage.getItem("quizList")) {
+    let quizList = JSON.parse(localStorage.getItem("quizList"));
+    quizList.forEach((quiz) => {
+      renderQuiz(quiz);
+      console.log(quiz.content);
+    });
+  }
 }
 
 // DOM에 퀴즈 추가하기
-function createQuiz(quiz) {
+function renderQuiz(quiz) {
   const tableQuiz = document.querySelector(".table");
   const row = quizAndBtn.insertRow();
   const tdQuiz = document.createElement("td");
   const tdDelete = document.createElement("td");
+
   tdDelete.addEventListener("click", deleteSingleQuiz);
 
-  tdQuiz.textContent = quiz;
+  tdQuiz.textContent = quiz.content;
   tdDelete.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
   row.append(tdQuiz, tdDelete);
   quizAndBtn.append(row);
@@ -51,24 +45,54 @@ function createQuiz(quiz) {
   inputQuiz.focus();
 }
 
+// input 값 미입력 시, 알람 발생
+function alertNoInput() {
+  alert("퀴즈를 입력해주세요 😃");
+  inputQuiz.focus();
+}
+
+// 사용자 input 값을 퀴즈로 추가하기
+function addQuiz(event) {
+  event.preventDefault();
+  const quiz = inputQuiz.value;
+  // renderQuiz(quiz);
+  saveQuiz(quiz);
+}
+
+// local storage에 저장할 퀴즈 id에 넣을 랜덤 숫자 생성하기
+const generateRandomNum = (quizListLength) => {
+  if (quizListLength === 0) {
+    quizListLength = 1; // 처음 배열 길이를 1로 설정해서 해결
+  }
+  const randomNumArray = new Uint16Array(quizListLength);
+  window.crypto.getRandomValues(randomNumArray);
+
+  for (const num of randomNumArray) {
+    return num;
+  }
+};
+
 // Local Storage에 퀴즈 저장하기
 function saveQuiz(quiz) {
   let quizList;
   quizList = localStorage.getItem("quizList")
     ? JSON.parse(localStorage.getItem("quizList"))
     : [];
-  quizList.push(quiz);
-  localStorage.setItem("quizList", JSON.stringify(quizList));
-}
+  let quizListLength = quizList.length;
+  const timeStamp = Date.now(); // 현재 시간
+  const id = generateRandomNum(quizListLength); // 여기가 문제 였음!! 배열 길이가 0이라서
+  quizList.push({
+    id: id,
+    content: quiz,
+    createdAt: timeStamp,
+    status: "",
+  });
 
-// Local Storage에 저장된 퀴즈 가져오기
-function getSavedQuiz() {
-  if (localStorage.getItem("quizList")) {
-    let quizList = JSON.parse(localStorage.getItem("quizList"));
-    quizList.forEach((quiz) => {
-      createQuiz(quiz);
-    });
-  }
+  localStorage.setItem("quizList", JSON.stringify(quizList));
+
+  console.log(quizList);
+  console.log(quizList.content);
+  renderQuiz(quizList);
 }
 
 // 엔터키 누르면 퀴즈 추가
@@ -124,3 +148,23 @@ function deleteFromStorage(quiz) {
   localStorage.removeItem("quizList");
   localStorage.setItem("quizList", JSON.stringify(quizList));
 }
+
+// 퀴즈풀기(입력순) 버튼 클릭 시, 입력 순서대로 퀴즈 풀기
+goQuizInOrder.addEventListener("click", () => {
+  const item = localStorage.getItem("quizList");
+  if (item && JSON.parse(item).length !== 0) {
+    location.href = "quiz.html";
+  } else {
+    alertNoInput();
+  }
+});
+
+// 퀴즈풀기(무작위) 버튼 클릭 시, 무작위로 퀴즈 풀기
+goQuizRandom.addEventListener("click", () => {
+  const item = localStorage.getItem("quizList");
+  if (item && JSON.parse(item).length !== 0) {
+    location.href = "quiz.html";
+  } else {
+    alertNoInput();
+  }
+});

@@ -59,10 +59,10 @@ header {
 }
 
 .rubberDuck-home {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   margin-right: 12px;
-  filter: drop-shadow(2px 2px 2px var(--color-black));
+  filter: drop-shadow(2px 2px 1px var(--color-black));
 }
 
 .title {
@@ -83,7 +83,7 @@ header {
   border: 0;
   outline: 0;
   border-radius: 16px;
-  padding: 5px 12px;
+  padding: 5px 14px;
   cursor: pointer;
   letter-spacing: -1.2px;
   background-color: var(--color-background);
@@ -148,10 +148,12 @@ header {
 .quizAndBtn {
   text-align: center;
   width: 100%;
+  padding: 0 6px 0 12px;
 }
 
 .quizAndBtn tr {
   height: 55px;
+  width: 70%;
 }
 
 .delete {
@@ -166,12 +168,12 @@ header {
 
 .btns {
   width: 100%;
+  margin-top: 12px;
   text-align: center;
 }
 
-.btns button {
-  border-style: none;
-  margin: 10px 5px 0px;
+.inOrder {
+  margin: 0 24px;
 }
 
 .btns .goQuiz:hover,
@@ -212,25 +214,35 @@ p {
 .checkBtn {
   width: 50px;
   height: 50px;
-  text-shadow: none;
-  color: #fff;
-}
-
-.btns .circle {
-  background-color: green;
-  font-size: var(--font-medium);
 }
 
 .btns .triangle {
-  background-color: gold;
-  font-size: var(--font-medium);
-  color: var(--color-black);
   margin: 0 30px;
 }
 
+.btns .circle,
+.btns .triangle,
 .btns .letterX {
-  background-color: crimson;
   font-size: var(--font-medium);
+}
+
+.btns .circle:focus,
+.btns .triangle:focus,
+.btns .letterX:focus {
+  text-shadow: none;
+  color: var(--color-white);
+}
+
+.btns .circle:focus {
+  background-color: green;
+}
+
+.btns .triangle:focus {
+  background-color: orange;
+}
+
+.btns .letterX:focus {
+  background-color: crimson;
 }
 
 .nextBtn {
@@ -240,4 +252,9 @@ p {
   width: 100%;
   padding: 6px 12px;
   margin-top: 38px;
+}
+
+.singleQuiz {
+  font-size: var(--font-large);
+  text-align: center;
 }

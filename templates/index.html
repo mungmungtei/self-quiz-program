@@ -21,6 +21,7 @@
     <link rel="icon" type="image/png" href="../images/rubber-duck.png" />
     <link rel="stylesheet" href="../styles/style.css" />
     <script src="../scripts/main.js" defer></script>
+    <!-- <script src="../scripts/quiz.js" defer></script> -->
   </head>
   <body>
     <section>
@@ -42,7 +43,7 @@
         <input
           type="text"
           class="inputQuiz box"
-          placeholder="퀴즈를 입력해주세요. (공백 포함 최대 50글자)"
+          placeholder="퀴즈를 입력해주세요 (공백 포함 최대 50글자)"
           maxlength="50"
         />
         <i class="addQuizBtn fa-solid fa-circle-plus"></i>
@@ -51,16 +52,16 @@
       <div class="table">
         <table class="quizAndBtn">
           <colgroup>
-            <col width="85%" />
-            <col width="15%" />
+            <col width="90%" />
+            <col width="10%" />
           </colgroup>
         </table>
       </div>
 
       <div class="btns">
         <button class="deleteAll box">퀴즈 전체 삭제</button>
-        <button class="inOrder goQuiz box">퀴즈 풀기 (순서대로)</button>
-        <button class="random goQuiz box">퀴즈 풀기 (랜덤으로)</button>
+        <button class="inOrder goQuiz box">퀴즈 풀기 (입력순)</button>
+        <button class="random goQuiz box">퀴즈 풀기 (무작위)</button>
       </div>
     </section>
   </body>
