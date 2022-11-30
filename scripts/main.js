@@ -2,7 +2,8 @@
 
 const inputQuiz = document.querySelector(".inputQuiz");
 const addQuizBtn = document.querySelector(".addQuizBtn");
-const quizAndBtn = document.querySelector(".quizAndBtn");
+const quizTable = document.querySelector(".quizTable");
+const quizBody = document.querySelector(".quizBody");
 const deleteAll = document.querySelector(".deleteAll");
 const goQuizInOrder = document.querySelector(".inOrder");
 const goQuizRandom = document.querySelector(".random");
@@ -14,35 +15,13 @@ deleteAll.addEventListener("click", deleteAllQuiz);
 
 // Local Storage에 저장된 퀴즈 가져오기
 function getSavedQuiz() {
+  // event.preventDefault();
   if (localStorage.getItem("quizList")) {
     let quizList = JSON.parse(localStorage.getItem("quizList"));
     quizList.forEach((quiz) => {
-      renderQuiz(quiz);
-      console.log(quiz.content);
+      createQuiz(quiz.content);
     });
   }
-}
-
-// DOM에 퀴즈 추가하기
-function renderQuiz(quiz) {
-  const tableQuiz = document.querySelector(".table");
-  const row = quizAndBtn.insertRow();
-  const tdQuiz = document.createElement("td");
-  const tdDelete = document.createElement("td");
-
-  tdDelete.addEventListener("click", deleteSingleQuiz);
-
-  tdQuiz.textContent = quiz.content;
-  tdDelete.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
-  row.append(tdQuiz, tdDelete);
-  quizAndBtn.append(row);
-  const maxScroll = tableQuiz.scrollHeight - tableQuiz.clientHeight;
-  tableQuiz.scrollTo({
-    top: maxScroll,
-    behavior: "smooth",
-  });
-  inputQuiz.value = "";
-  inputQuiz.focus();
 }
 
 // input 값 미입력 시, 알람 발생
@@ -51,12 +30,41 @@ function alertNoInput() {
   inputQuiz.focus();
 }
 
-// 사용자 input 값을 퀴즈로 추가하기
-function addQuiz(event) {
-  event.preventDefault();
+// 사용자 input 값 화면에 보여주기
+function onAdd() {
+  // event.preventDefault();
   const quiz = inputQuiz.value;
+
+  const quizRow = createQuiz(quiz);
+
+  quizBody.append(quizRow);
+
+  const tableQuiz = document.querySelector(".table");
+  const maxScroll = tableQuiz.scrollHeight - tableQuiz.clientHeight;
+  tableQuiz.scrollTo({
+    top: maxScroll,
+    behavior: "smooth",
+  });
+  inputQuiz.value = "";
+  inputQuiz.focus();
+
   // renderQuiz(quiz);
   saveQuiz(quiz);
+}
+
+// DOM에 퀴즈 추가하기
+function createQuiz(quiz) {
+  const quizRow = quizBody.insertRow();
+  const tdQuiz = document.createElement("td");
+  const tdDelete = document.createElement("td");
+
+  tdDelete.addEventListener("click", deleteSingleQuiz);
+
+  tdQuiz.textContent = quiz;
+  tdDelete.innerHTML = `<i class="delete fa-solid fa-trash-can"></i>`;
+  quizRow.append(tdQuiz, tdDelete);
+
+  return quizRow;
 }
 
 // local storage에 저장할 퀴즈 id에 넣을 랜덤 숫자 생성하기
@@ -89,10 +97,6 @@ function saveQuiz(quiz) {
   });
 
   localStorage.setItem("quizList", JSON.stringify(quizList));
-
-  console.log(quizList);
-  console.log(quizList.content);
-  renderQuiz(quizList);
 }
 
 // 엔터키 누르면 퀴즈 추가
@@ -105,18 +109,34 @@ function addQuizByEnter(event) {
     alertNoInput();
   }
   if (content && event.key === "Enter") {
-    addQuiz(event);
+    onAdd();
   }
 }
 
 // 플러스 버튼 클릭 시, 퀴즈 추가
-function addQuizByClick(event) {
+function addQuizByClick() {
   const content = inputQuiz.value;
+
+  // 입력값 없을 때
   if (!content) {
     alertNoInput();
     return false;
   }
-  addQuiz(event);
+
+  onAdd();
+}
+
+function checkDuplicated(content) {
+  const quizList = JSON.parse(localStorage.getItem("quizList"));
+  const duplicatedArr = quizList.filter((item) => item.content === content);
+  const isDuplicated = duplicatedArr.length > 1 ? true : false;
+
+  console.log(isDuplicated);
+  alert("이미 입력된 퀴즈에요 😅");
+  inputQuiz.value = "";
+  inputQuiz.focus();
+
+  return isDuplicated;
 }
 
 // 퀴즈 전체 삭제 버튼 클릭 시, 퀴즈 전체 삭제
@@ -132,9 +152,11 @@ function deleteSingleQuiz(event) {
   if (tdDelete.classList.contains("delete")) {
     const tdQuiz = tdDelete.parentNode.previousElementSibling; // tdDelete는 <i> -> 부모 <td> -> 형제 <td>
     const quiz = tdQuiz.textContent;
-    const row = tdDelete.parentNode.parentNode; // <i> -> <td> -> <tr>
 
-    quizAndBtn.removeChild(row);
+    const quizRow = tdDelete.parentNode.parentNode; // <i> -> <td> -> <tr>
+    console.log(quizRow);
+    quizBody.removeChild(quizRow);
+
     deleteFromStorage(quiz);
   }
 }
@@ -142,7 +164,8 @@ function deleteSingleQuiz(event) {
 // 2. Local Storage에서 삭제하기
 function deleteFromStorage(quiz) {
   const quizList = JSON.parse(localStorage.getItem("quizList"));
-  const index = quizList.indexOf(quiz);
+  const index = quizList.findIndex((item) => item.content === quiz);
+  console.log(index);
 
   quizList.splice(index, 1); // splice : 배열 자체를 수정 (slice : 새로운 배열 반환)
   localStorage.removeItem("quizList");

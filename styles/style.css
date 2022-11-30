@@ -145,13 +145,13 @@ header {
   height: 60vh;
 }
 
-.quizAndBtn {
+.quizTable {
   text-align: center;
   width: 100%;
   padding: 0 6px 0 12px;
 }
 
-.quizAndBtn tr {
+.quizTable tr {
   height: 55px;
   width: 70%;
 }
