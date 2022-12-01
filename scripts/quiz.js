@@ -1,54 +1,38 @@
+"use strict";
+
 const quizBox = document.querySelector(".quizBox");
-const nextBtn = document.querySelector(".nextBtn");
-const quizList = JSON.parse(localStorage.getItem("quizList"));
 
-document.addEventListener("DOMContentLoaded", quizInOrder);
+const sortQuizList = (quizList, sortBy) => {
+  // 입력순 정렬
+  if (sortBy === "order") {
+    console.log("순서대로");
+    renderQuiz(quizList);
+  }
+  // 랜덤 정렬
+  if (sortBy === "random") {
+    console.log("랜덤으로");
 
-function quizInOrder() {
-  let i = 0;
-  const quiz = document.createElement("p");
-  quiz.setAttribute("class", "singleQuiz");
+    quizList.sort((a, b) => {
+      if (a.id > b.id) {
+        return -1;
+      } else if (a.id < b.id) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    renderQuiz(quizList);
+  }
+};
 
-  quiz.textContent = quizList[i];
-  quizBox.append(quiz);
+const renderQuiz = (quizList) => {
+  console.log("하나씩 보내줄게");
+  const singleQuiz = document.createElement("p");
+  singleQuiz.setAttribute("class", "singleQuiz");
+  singleQuiz.textContent = quizList[0].content;
+  console.log(singleQuiz.innerHTML); // ok
+  console.log(singleQuiz); // p 태그
+  console.log(quizBox);
+};
 
-  console.log(quiz);
-
-  i++;
-  nextBtn.addEventListener("click", (i) => {
-    if (i < quizList.length) {
-      console.log(i);
-      quizInOrder(i);
-    }
-  });
-}
-
-nextBtn.addEventListener("click", () => {
-  location.reload();
-});
-
-// // 작성 순서대로 퀴즈 보여주기
-// function createQuizInOrder(i) {
-//   // 퀴즈 담을 p 태그 만들고, class 넣어주기
-//   const quiz = document.createElement("p");
-//   quiz.setAttribute("class", "singleQuiz");
-
-//   // local storage에서 배열 받아와서 인덱스 순으로 p 태그에 넣어주고, html에 append
-//   quiz.textContent = quizList[i];
-//   quizBox.append(quiz);
-
-//   console.log(quiz);
-//   i++;
-//   nextBtn.addEventListener("click", increaseIndex(i));
-// }
-
-// function increaseIndex(i) {
-//   if (i < quizList.length) {
-//     console.log(i);
-//   }
-//}
-
-// 랜덤으로 퀴즈 보여주기
-export function quizRandom() {
-  console.log("랜덤으로 보여준다!");
-}
+console.log(quizBox);
