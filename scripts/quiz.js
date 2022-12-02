@@ -34,5 +34,3 @@ const renderQuiz = (quizList) => {
   console.log(singleQuiz); // p 태그
   console.log(quizBox);
 };
-
-console.log(quizBox);

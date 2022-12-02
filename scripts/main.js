@@ -8,41 +8,16 @@ const deleteAll = document.querySelector(".deleteAll");
 const goQuizOrder = document.querySelector(".order");
 const goQuizRandom = document.querySelector(".random");
 
-document.addEventListener("DOMContentLoaded", getSavedQuiz);
-inputQuiz.addEventListener("keydown", addQuizByEnter);
-addQuizBtn.addEventListener("click", addQuizByClick);
-deleteAll.addEventListener("click", deleteAllQuiz);
-
-// Local Storage에 저장된 퀴즈 가져오기
-function getSavedQuiz() {
+const getSavedQuiz = () => {
   if (localStorage.getItem("quizList")) {
     let quizList = JSON.parse(localStorage.getItem("quizList"));
     quizList.forEach((item) => {
       createQuiz(item.content);
     });
   }
-}
+};
 
-// 퀴즈를 렌더링하기
-function onAdd() {
-  const content = inputQuiz.value;
-  const quizRow = createQuiz(content);
-  quizBody.append(quizRow);
-
-  const tableQuiz = document.querySelector(".table");
-  const maxScroll = tableQuiz.scrollHeight - tableQuiz.clientHeight;
-  tableQuiz.scrollTo({
-    top: maxScroll,
-    behavior: "smooth",
-  });
-  inputQuiz.value = "";
-  inputQuiz.focus();
-
-  saveQuiz(content);
-}
-
-// DOM에 퀴즈 추가하기
-function createQuiz(content) {
+const createQuiz = (content) => {
   const quizRow = quizBody.insertRow();
   const tdQuiz = document.createElement("td");
   const tdDelete = document.createElement("td");
@@ -54,17 +29,28 @@ function createQuiz(content) {
   quizRow.append(tdQuiz, tdDelete);
 
   return quizRow;
-}
+};
 
-// Local Storage에 퀴즈 저장하기
-function saveQuiz(content) {
+const onAdd = () => {
+  const content = inputQuiz.value;
+  const quizRow = createQuiz(content);
+  quizBody.append(quizRow);
+
+  quizRow.scrollIntoView({ block: "center" });
+  inputQuiz.value = "";
+  inputQuiz.focus();
+
+  saveQuiz(content);
+};
+
+const saveQuiz = (content) => {
   let quizList;
   quizList = localStorage.getItem("quizList")
     ? JSON.parse(localStorage.getItem("quizList"))
     : [];
   const quizListLength = quizList.length;
-  const timeStamp = Date.now(); // 현재 시간
-  const id = generateRandomNum(quizListLength); // 여기가 문제 였음!! 배열 길이가 0이라서
+  const timeStamp = Date.now();
+  const id = generateRandomNum(quizListLength);
   quizList.push({
     id: id,
     content: content,
@@ -73,12 +59,11 @@ function saveQuiz(content) {
   });
 
   localStorage.setItem("quizList", JSON.stringify(quizList));
-}
+};
 
-// Local Storage에 저장할 퀴즈 id에 넣을 랜덤 숫자 생성하기
 const generateRandomNum = (quizListLength) => {
   if (quizListLength === 0) {
-    quizListLength = 1; // 처음 배열 길이를 1로 설정해서 해결
+    quizListLength = 1;
   }
   const randomNumArray = new Uint16Array(quizListLength);
   window.crypto.getRandomValues(randomNumArray);
@@ -88,8 +73,7 @@ const generateRandomNum = (quizListLength) => {
   }
 };
 
-// 엔터키 누르면 퀴즈 추가
-function addQuizByEnter(event) {
+const addQuizByEnter = (event) => {
   const content = inputQuiz.value;
   const quizList = JSON.parse(localStorage.getItem("quizList"));
 
@@ -108,10 +92,9 @@ function addQuizByEnter(event) {
   } else if (event.key === "Enter") {
     onAdd();
   }
-}
+};
 
-// 플러스 버튼 클릭 시, 퀴즈 추가
-function addQuizByClick() {
+const addQuizByClick = () => {
   const content = inputQuiz.value;
   const quizList = JSON.parse(localStorage.getItem("quizList"));
 
@@ -125,15 +108,13 @@ function addQuizByClick() {
   } else {
     onAdd();
   }
-}
+};
 
-// 퀴즈 미입력 시, 알람 발생
-function alertNoInput() {
+const alertNoInput = () => {
   alert("퀴즈를 입력해주세요 😃");
   inputQuiz.focus();
-}
+};
 
-// 퀴즈 입력 시, 중복 확인
 const checkDuplicatedInput = (quizList, content) => {
   const result = quizList.some((item) => item.content === content);
   if (result) {
@@ -145,15 +126,12 @@ const checkDuplicatedInput = (quizList, content) => {
   onAdd();
 };
 
-// 퀴즈 전체 삭제 버튼 클릭 시, 퀴즈 전체 삭제
-function deleteAllQuiz() {
+const deleteAllQuiz = () => {
   localStorage.removeItem("quizList");
   location.reload();
-}
+};
 
-// 삭제 아이콘 클릭 시, 해당 퀴즈 삭제
-function deleteSingleQuiz(event) {
-  // 1. DOM Tree에서 끊어내기
+const deleteSingleQuiz = (event) => {
   const tdDelete = event.target;
   if (tdDelete.classList.contains("delete")) {
     const tdQuiz = tdDelete.parentNode.previousElementSibling; // tdDelete는 <i> -> 부모 <td> -> 형제 <td>
@@ -163,16 +141,22 @@ function deleteSingleQuiz(event) {
 
     deleteFromStorage(quiz);
   }
-}
+};
 
-// 2. Local Storage에서 삭제하기
-function deleteFromStorage(quiz) {
+const deleteFromStorage = (quiz) => {
   const quizList = JSON.parse(localStorage.getItem("quizList"));
-  const index = quizList.findIndex((item) => item.content === quiz); // 처음에 indexOf로 접근해서 계속 오류남!
+  const index = quizList.findIndex((item) => item.content === quiz);
   quizList.splice(index, 1);
   localStorage.removeItem("quizList");
   localStorage.setItem("quizList", JSON.stringify(quizList));
-}
+};
+
+document.addEventListener("DOMContentLoaded", getSavedQuiz);
+inputQuiz.addEventListener("keydown", addQuizByEnter);
+addQuizBtn.addEventListener("click", addQuizByClick);
+deleteAll.addEventListener("click", deleteAllQuiz);
+
+//--------------------------------------------우선 최소 기능 완료
 
 // 퀴즈풀기(입력순) 버튼 클릭 시, 입력 순서대로 퀴즈 풀기
 goQuizOrder.addEventListener("click", () => {
@@ -180,7 +164,7 @@ goQuizOrder.addEventListener("click", () => {
   const quizList = JSON.parse(quizJSON);
   if (quizJSON && quizList.length !== 0) {
     sortQuizList(quizList, "order");
-    //location.href = "quiz.html";
+    location.href = "quiz.html";
   } else {
     alertNoInput();
   }
