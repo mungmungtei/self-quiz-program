@@ -51,6 +51,7 @@ const saveQuiz = (content) => {
   const quizListLength = quizList.length;
   const timeStamp = Date.now();
   const id = generateRandomNum(quizListLength);
+
   quizList.push({
     id: id,
     content: content,
@@ -65,7 +66,7 @@ const generateRandomNum = (quizListLength) => {
   if (quizListLength === 0) {
     quizListLength = 1;
   }
-  const randomNumArray = new Uint16Array(quizListLength);
+  const randomNumArray = new Uint8Array(quizListLength);
   window.crypto.getRandomValues(randomNumArray);
 
   for (const num of randomNumArray) {
@@ -115,6 +116,11 @@ const alertNoInput = () => {
   inputQuiz.focus();
 };
 
+const alertOneInput = () => {
+  alert("퀴즈를 2개 이상 입력해주세요 😃");
+  inputQuiz.focus();
+};
+
 const checkDuplicatedInput = (quizList, content) => {
   const result = quizList.some((item) => item.content === content);
   if (result) {
@@ -156,27 +162,26 @@ inputQuiz.addEventListener("keydown", addQuizByEnter);
 addQuizBtn.addEventListener("click", addQuizByClick);
 deleteAll.addEventListener("click", deleteAllQuiz);
 
-//--------------------------------------------우선 최소 기능 완료
-
-// 퀴즈풀기(입력순) 버튼 클릭 시, 입력 순서대로 퀴즈 풀기
 goQuizOrder.addEventListener("click", () => {
   const quizJSON = localStorage.getItem("quizList");
   const quizList = JSON.parse(quizJSON);
-  if (quizJSON && quizList.length !== 0) {
-    sortQuizList(quizList, "order");
-    location.href = "quiz.html";
+  if (quizJSON && quizList.length > 1) {
+    location.href = "quiz-order.html";
+  } else if (quizJSON && quizList.length === 1) {
+    alertOneInput();
   } else {
     alertNoInput();
   }
 });
 
-// 퀴즈풀기(무작위) 버튼 클릭 시, 무작위로 퀴즈 풀기
 goQuizRandom.addEventListener("click", () => {
   const quizJSON = localStorage.getItem("quizList");
   const quizList = JSON.parse(quizJSON);
-  if (quizJSON && quizList.length !== 0) {
-    sortQuizList(quizList, "random");
-    location.href = "quiz.html";
+
+  if (quizJSON && quizList.length > 1) {
+    location.href = "quiz-random.html";
+  } else if (quizJSON && quizList.length === 1) {
+    alertOneInput();
   } else {
     alertNoInput();
   }
