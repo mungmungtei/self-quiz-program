@@ -156,7 +156,7 @@ header {
 }
 
 .quizTable tr {
-  height: 55px;
+  height: 68px;
   width: 70%;
 }
 
@@ -265,26 +265,41 @@ p {
   padding: 70px 20px;
 }
 
-.goToMain {
-  padding: 8px 20px;
-  margin-top: 20px;
+.result-title {
+  margin: 0 0 28px;
 }
 
-.result-text {
+.result {
   font-size: var(--font-medium);
   font-weight: var(--weight-medium);
   text-align: center;
 }
 
+.good {
+  color: green;
+}
+
+.confused {
+  color: orange;
+}
+
+.bad {
+  color: crimson;
+}
+
 .resultBox {
   width: 500px;
-  height: 12vh;
-  min-height: 80px;
+  height: 14vh;
   border-radius: 20px;
-  margin: 4px 0 24px;
+  margin: 4px 0 28px;
 }
 
 .quiz-list {
   text-align: center;
   padding: 8px 16px;
+}
+
+.goToMain {
+  padding: 8px 20px;
+  margin-top: 4px;
 }
